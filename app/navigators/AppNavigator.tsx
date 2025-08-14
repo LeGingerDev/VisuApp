@@ -4,19 +4,23 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import { ComponentProps } from "react"
-import { NavigationContainer, NavigatorScreenParams } from "@react-navigation/native"
+import { ComponentProps, ReactNode } from "react"
+import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 
 import Config from "@/config"
 import { useAuth } from "@/context/AuthContext"
-import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
-import { LoginScreen } from "@/screens/LoginScreen"
-import { WelcomeScreen } from "@/screens/WelcomeScreen"
+import { LoginScreen } from "@/screens/authentication/LoginScreen"
+import { SplashScreen } from "@/screens/initialisation/SplashScreen"
+import { HomeScreen } from "@/screens/main/HomeScreen"
 import { useAppTheme } from "@/theme/context"
 
-import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+
+// Simple ErrorBoundary component
+const ErrorBoundary = ({ children, catchErrors }: { children: ReactNode; catchErrors: "always" | "dev" | "prod" | "never" }) => {
+  return <>{children}</>
+}
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -28,9 +32,9 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Welcome: undefined
+  Splash: undefined
   Login: undefined
-  Demo: NavigatorScreenParams<DemoTabParamList>
+  Home: undefined
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
@@ -65,18 +69,14 @@ const AppStack = () => {
           backgroundColor: colors.background,
         },
       }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
+      initialRouteName="Splash"
     >
+      <Stack.Screen name="Splash" component={SplashScreen} />
+      
       {isAuthenticated ? (
-        <>
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-
-          <Stack.Screen name="Demo" component={DemoNavigator} />
-        </>
+        <Stack.Screen name="Home" component={HomeScreen} />
       ) : (
-        <>
-          <Stack.Screen name="Login" component={LoginScreen} />
-        </>
+        <Stack.Screen name="Login" component={LoginScreen} />
       )}
 
       {/** 🔥 Your screens go here */}

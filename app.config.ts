@@ -17,6 +17,13 @@ module.exports = ({ config }: ConfigContext): Partial<ExpoConfig> => {
 
   return {
     ...config,
+    // Environment-specific configuration
+    extra: {
+      ...config.extra,
+      // Add environment variables that will be available in the app
+      EXPO_PUBLIC_SUPABASE_URL: process.env.EXPO_PUBLIC_SUPABASE_URL,
+      EXPO_PUBLIC_SUPABASE_ANON_KEY: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+    },
     ios: {
       ...config.ios,
       // This privacyManifests is to get you started.
@@ -34,6 +41,6 @@ module.exports = ({ config }: ConfigContext): Partial<ExpoConfig> => {
         ],
       },
     },
-    plugins: [...existingPlugins, require("./plugins/withSplashScreen").withSplashScreen],
+    plugins: [...existingPlugins, require("./plugins/withSplashScreen").withSplashScreen, "expo-secure-store"],
   }
 }

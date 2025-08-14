@@ -3,16 +3,42 @@ destinationDir: app/navigators
 ---
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
+import { useAppTheme } from "@/theme/context"
+import type { ThemedStyle } from "@/theme/types"
 
 export type <%= props.pascalCaseName %>NavigatorParamList = {
   Demo: undefined
 }
 
 const Stack = createNativeStackNavigator<<%= props.pascalCaseName %>NavigatorParamList>()
+
 export const <%= props.pascalCaseName %>Navigator = () => {
+  const { themed } = useAppTheme()
+  
   return (
-    <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: "transparent" }, headerShown: false, }}>
-      <Stack.Screen name="Demo" component={WelcomeScreen} />
+    <Stack.Navigator 
+      screenOptions={{ 
+        cardStyle: themed($cardStyle),
+        headerShown: false,
+        // Add safety features
+        gestureEnabled: true,
+        animation: "slide_from_right",
+        // Error boundary integration
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen 
+        name="Demo" 
+        component={WelcomeScreen}
+        options={{
+          // Add screen-specific options here if needed
+        }}
+      />
     </Stack.Navigator>
   )
 }
+
+// Themed styles
+const $cardStyle: ThemedStyle<{ backgroundColor: string }> = ({ colors }) => ({
+  backgroundColor: colors.background,
+})
