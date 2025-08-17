@@ -10,33 +10,23 @@ import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navig
 
 import Config from "@/config"
 import { useAuth } from "@/context/AuthContext"
+import { RootStackParamList } from "@/navigation/routes/params"
+import { MainStack } from "@/navigation/stacks/MainStack"
 import { LoginScreen } from "@/screens/authentication/LoginScreen"
 import { SplashScreen } from "@/screens/initialisation/SplashScreen"
-import { HomeScreen } from "@/screens/main/HomeScreen"
 import { useAppTheme } from "@/theme/context"
 
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 // Simple ErrorBoundary component
-const ErrorBoundary = ({ children, catchErrors }: { children: ReactNode; catchErrors: "always" | "dev" | "prod" | "never" }) => {
+const ErrorBoundary = ({
+  children,
+  catchErrors,
+}: {
+  children: ReactNode
+  catchErrors: "always" | "dev" | "prod" | "never"
+}) => {
   return <>{children}</>
-}
-
-/**
- * This type allows TypeScript to know what routes are defined in this navigator
- * as well as what properties (if any) they might take when navigating to them.
- *
- * For more information, see this documentation:
- *   https://reactnavigation.org/docs/params/
- *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
- *   https://reactnavigation.org/docs/typescript/#organizing-types
- */
-export type AppStackParamList = {
-  Splash: undefined
-  Login: undefined
-  Home: undefined
-  // 🔥 Your screens go here
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -45,13 +35,13 @@ export type AppStackParamList = {
  */
 const exitRoutes = Config.exitRoutes
 
-export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStackScreenProps<
-  AppStackParamList,
+export type AppStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
+  RootStackParamList,
   T
 >
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
-const Stack = createNativeStackNavigator<AppStackParamList>()
+const Stack = createNativeStackNavigator<RootStackParamList>()
 
 const AppStack = () => {
   const { isAuthenticated } = useAuth()
@@ -64,7 +54,6 @@ const AppStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        navigationBarColor: colors.background,
         contentStyle: {
           backgroundColor: colors.background,
         },
@@ -72,21 +61,18 @@ const AppStack = () => {
       initialRouteName="Splash"
     >
       <Stack.Screen name="Splash" component={SplashScreen} />
-      
+
       {isAuthenticated ? (
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="MainApp" component={MainStack} />
       ) : (
         <Stack.Screen name="Login" component={LoginScreen} />
       )}
-
-      {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 }
 
 export interface NavigationProps
-  extends Partial<ComponentProps<typeof NavigationContainer<AppStackParamList>>> {}
+  extends Partial<ComponentProps<typeof NavigationContainer<RootStackParamList>>> {}
 
 export const AppNavigator = (props: NavigationProps) => {
   const { navigationTheme } = useAppTheme()

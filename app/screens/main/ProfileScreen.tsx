@@ -5,10 +5,10 @@ import { ScreenLayout } from "@/components/ScreenLayout"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
 
-export const HomeScreen: FC = () => {
+export const ProfileScreen: FC = () => {
   const { themed } = useAppTheme()
 
-  return <ScreenLayout headerTitle="Home" style={themed($root)} />
+  return <ScreenLayout headerTitle="Profile" style={themed($root)} />
 }
 
 const $root: ThemedStyle<ViewStyle> = () => ({

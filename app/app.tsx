@@ -43,7 +43,16 @@ const config = {
     Login: {
       path: "login",
     },
-    Home: "home",
+    MainApp: {
+      path: "main",
+      screens: {
+        HomeTab: "home",
+        ListsTab: "lists",
+        AddTab: "add",
+        GroupsTab: "groups",
+        ProfileTab: "profile",
+      },
+    },
   },
 }
 

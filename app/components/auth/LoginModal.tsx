@@ -1,12 +1,24 @@
 import React, { ComponentType, FC, useRef, useState } from "react"
-import { TextInput, View, ViewStyle, TextStyle, Modal, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native"
-import { Text } from "../Text"
-import { Button } from "../Button"
-import { TextField, TextFieldAccessoryProps } from "../TextField"
-import { PressableIcon } from "../Icon"
-import { useAppTheme } from "@/theme/context"
+import {
+  TextInput,
+  View,
+  ViewStyle,
+  TextStyle,
+  Modal,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native"
+import { StyleSheet } from "react-native"
+
 import { useAuth } from "@/context/AuthContext"
+import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
+
+import { Button } from "../Button"
+import { PressableIcon } from "../Icon"
+import { Text } from "../Text"
+import { TextField, TextFieldAccessoryProps } from "../TextField"
 
 interface LoginModalProps {
   visible: boolean
@@ -20,10 +32,10 @@ export const LoginModal: FC<LoginModalProps> = ({ visible, onClose, onSuccess })
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
   const [errorMessage, setErrorMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  
+
   const { signIn } = useAuth()
   const { themed, theme } = useAppTheme()
-  
+
   const passwordInput = useRef<TextInput>(null)
 
   const handleLogin = async () => {
@@ -31,14 +43,14 @@ export const LoginModal: FC<LoginModalProps> = ({ visible, onClose, onSuccess })
       setErrorMessage("Please enter both email and password")
       return
     }
-    
+
     setIsLoading(true)
     setErrorMessage("")
-    
+
     const result = await signIn({ email, password })
-    
+
     setIsLoading(false)
-    
+
     if (result.success) {
       setEmail("")
       setPassword("")
@@ -48,7 +60,7 @@ export const LoginModal: FC<LoginModalProps> = ({ visible, onClose, onSuccess })
       setErrorMessage(result.error || "Failed to login. Please check your credentials.")
     }
   }
-  
+
   const PasswordRightAccessory: ComponentType<TextFieldAccessoryProps> = (props) => {
     return (
       <PressableIcon
@@ -62,19 +74,14 @@ export const LoginModal: FC<LoginModalProps> = ({ visible, onClose, onSuccess })
   }
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
-      <KeyboardAvoidingView 
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+      <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={$keyboardAvoidingView}
       >
         <View style={$modalOverlay}>
           <TouchableOpacity style={$backdrop} onPress={onClose} />
-          
+
           <View style={themed($modalContainer)}>
             <View style={$header}>
               <Text text="Sign In" preset="heading" style={$headerText} />
@@ -82,11 +89,9 @@ export const LoginModal: FC<LoginModalProps> = ({ visible, onClose, onSuccess })
                 <PressableIcon icon="x" size={24} color={theme.colors.text} />
               </TouchableOpacity>
             </View>
-            
-            {errorMessage ? (
-              <Text text={errorMessage} style={themed($errorText)} />
-            ) : null}
-            
+
+            {errorMessage ? <Text text={errorMessage} style={themed($errorText)} /> : null}
+
             <TextField
               value={email}
               onChangeText={setEmail}
@@ -99,7 +104,7 @@ export const LoginModal: FC<LoginModalProps> = ({ visible, onClose, onSuccess })
               placeholder="Enter your email address"
               onSubmitEditing={() => passwordInput.current?.focus()}
             />
-            
+
             <TextField
               ref={passwordInput}
               value={password}
@@ -114,7 +119,7 @@ export const LoginModal: FC<LoginModalProps> = ({ visible, onClose, onSuccess })
               onSubmitEditing={handleLogin}
               RightAccessory={PasswordRightAccessory}
             />
-            
+
             <Button
               text="Sign In"
               style={$button}
@@ -176,5 +181,3 @@ const $errorText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.error,
   marginBottom: 16,
 })
-
-import { StyleSheet } from "react-native"

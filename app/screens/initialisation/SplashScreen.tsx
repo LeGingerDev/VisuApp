@@ -1,12 +1,13 @@
 import { FC, useEffect } from "react"
 import { ActivityIndicator, View, ViewStyle } from "react-native"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { Image } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
-import { useNavigation } from "@react-navigation/native"
 import { useAuth } from "@/context/AuthContext"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
 import { useAppTheme } from "@/theme/context"
-import { Image } from "react-native"
 
 interface SplashScreenProps extends AppStackScreenProps<"Splash"> {}
 
@@ -21,17 +22,17 @@ export const SplashScreen: FC<SplashScreenProps> = () => {
     const initializeApp = async () => {
       // Add any additional initialization logic here
       // For example, load initial data, configure services, etc.
-      
+
       // Wait a minimum time to show splash screen
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+
       // Navigate to the appropriate screen based on authentication status
       // The auth context already checks for existing sessions on load
       if (!isLoading) {
         if (isAuthenticated) {
           navigation.reset({
             index: 0,
-            routes: [{ name: "Home" as never }],
+            routes: [{ name: "MainApp" as never }],
           })
         } else {
           navigation.reset({
@@ -50,7 +51,7 @@ export const SplashScreen: FC<SplashScreenProps> = () => {
       <View style={$container}>
         {/* You can add your app logo here */}
         {/* <Image source={require("@/assets/images/logo.png")} style={$logo} /> */}
-        
+
         <Text text="VisuApp" preset="heading" style={$title} />
         <Text text="Your Visual App Experience" preset="subheading" style={$subtitle} />
         <ActivityIndicator size="large" color={theme.colors.primary} style={$loader} />

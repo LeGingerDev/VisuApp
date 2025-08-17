@@ -3,32 +3,32 @@ const palette = {
   // Base colors
   white: "#FFFFFF",
   black: "#000000",
-  
+
   // Brand colors - Blue/Purple theme
   blue: "#4338CA",
-  blueLight: "#C7CCFF", 
+  blueLight: "#C7CCFF",
   blueDark: "#3730A3",
-  
+
   purple: "#8B5CF6",
   purpleLight: "#E9E5FF",
-  
+
   orange: "#F97316",
   orangeLight: "#FFEDD5",
-  
+
   // Neutrals
   gray50: "#F8F9FA",
-  gray100: "#E9ECEF", 
+  gray100: "#E9ECEF",
   gray300: "#CED4DA",
   gray500: "#6C757D",
   gray700: "#495057",
   gray900: "#212529",
-  
+
   // Status colors
   green: "#16A34A",
   greenLight: "#DCFCE7",
-  red: "#DC2626", 
+  red: "#DC2626",
   redLight: "#FEE2E2",
-  
+
   // Overlays
   overlay20: "rgba(33, 37, 41, 0.2)",
   overlay50: "rgba(33, 37, 41, 0.5)",
@@ -52,7 +52,7 @@ const palette = {
   primary600: "#3730A3",
 
   secondary100: "#E9E5FF",
-  secondary200: "#E9E5FF", 
+  secondary200: "#E9E5FF",
   secondary300: "#C4B5FD",
   secondary400: "#A78BFA",
   secondary500: "#8B5CF6",
@@ -74,44 +74,44 @@ export const colors = {
    * semantic names as much as possible.
    */
   palette,
-  
+
   /**
    * A helper for making something see-thru.
    */
   transparent: "rgba(0, 0, 0, 0)",
 
   // ===================
-  // SEMANTIC COLORS - USE THESE! 
+  // SEMANTIC COLORS - USE THESE!
   // ===================
-  
+
   // Text hierarchy
-  text: palette.gray900,           // Primary text
-  textSecondary: palette.gray700,  // Secondary text  
-  textMuted: palette.gray500,      // Muted/disabled text
-  textInverse: palette.white,      // Text on dark backgrounds
-  
+  text: palette.gray900, // Primary text
+  textSecondary: palette.gray700, // Secondary text
+  textMuted: palette.gray500, // Muted/disabled text
+  textInverse: palette.white, // Text on dark backgrounds
+
   // Backgrounds
-  background: palette.white,          // Main app background
+  background: palette.white, // Main app background
   backgroundSecondary: palette.gray50, // Secondary background
-  surface: palette.white,             // Card/modal surfaces
-  surfaceSecondary: palette.gray50,   // Subtle surface variation
-  
+  surface: palette.white, // Card/modal surfaces
+  surfaceSecondary: palette.gray50, // Subtle surface variation
+
   // Interactive elements
-  primary: palette.blue,           // Main brand actions
+  primary: palette.blue, // Main brand actions
   primaryPressed: palette.blueDark, // Pressed state
   primarySubtle: palette.blueLight, // Subtle primary elements
-  
-  secondary: palette.purple,        // Secondary actions
+
+  secondary: palette.purple, // Secondary actions
   secondarySubtle: palette.purpleLight,
-  
-  accent: palette.orange,          // Call-to-action elements
+
+  accent: palette.orange, // Call-to-action elements
   accentSubtle: palette.orangeLight,
-  
+
   // Borders & dividers
-  border: palette.gray300,         // Default borders
-  borderSubtle: palette.gray100,   // Subtle borders
-  separator: palette.gray100,      // Divider lines
-  
+  border: palette.gray300, // Default borders
+  borderSubtle: palette.gray100, // Subtle borders
+  separator: palette.gray100, // Divider lines
+
   // Status & feedback
   success: palette.green,
   successBackground: palette.greenLight,
@@ -122,7 +122,7 @@ export const colors = {
   // LEGACY SUPPORT - These maintain existing functionality
   // Gradually replace these with semantic names above
   // ===================
-  
+
   /**
    * Secondary text information.
    */
