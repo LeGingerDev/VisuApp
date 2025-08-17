@@ -13,6 +13,10 @@ export interface ScreenLayoutProps extends Omit<ScreenProps, "children"> {
    */
   headerTitle?: string
   /**
+   * Left component for the header (e.g., back button)
+   */
+  LeftComponent?: React.ReactNode
+  /**
    * Right icon for the header
    */
   headerRightIcon?: HeaderBarProps["rightIcon"]
@@ -40,6 +44,7 @@ export interface ScreenLayoutProps extends Omit<ScreenProps, "children"> {
 export function ScreenLayout(props: ScreenLayoutProps) {
   const {
     headerTitle,
+    LeftComponent,
     headerRightIcon,
     onRightPress,
     RightComponent,
@@ -59,6 +64,7 @@ export function ScreenLayout(props: ScreenLayoutProps) {
     >
       <HeaderBar
         title={headerTitle}
+        LeftComponent={LeftComponent}
         rightIcon={headerRightIcon}
         onRightPress={onRightPress}
         RightComponent={RightComponent}

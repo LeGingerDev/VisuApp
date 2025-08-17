@@ -1,17 +1,24 @@
 import { FC, useState, useEffect } from "react"
 import { ViewStyle, View, Alert, TextStyle } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack"
 
 import { Button } from "@/components/Button"
 import { CreateGroupModal } from "@/components/groups"
+import { GroupCard } from "@/components/GroupCard"
 import { ScreenLayout } from "@/components/ScreenLayout"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/context/AuthContext"
 import { GroupsService, type Group } from "@/services/groups"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
+import type { GroupsStackParamList } from "@/navigation/stacks/GroupsStack"
+
+type NavigationProp = NativeStackNavigationProp<GroupsStackParamList, "Groups">
 
 export const GroupsScreen: FC = () => {
   const { themed } = useAppTheme()
+  const navigation = useNavigation<NavigationProp>()
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
   const [groups, setGroups] = useState<Group[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -69,6 +76,10 @@ export const GroupsScreen: FC = () => {
     setIsCreateModalVisible(false)
   }
 
+  const handleGroupPress = (group: Group) => {
+    navigation.navigate("GroupDetails", { group })
+  }
+
   const NewGroupButton = () => (
     <Button
       text="+ New"
@@ -109,22 +120,12 @@ export const GroupsScreen: FC = () => {
           <View style={themed($sectionContainer)}>
             <Text preset="formLabel" text="Groups I Made" style={themed($sectionHeader)} />
             {createdGroups.map((group) => (
-              <View key={group.id} style={themed($groupItem)}>
-                <View style={themed($groupHeader)}>
-                  <Text preset="formLabel" text={group.group_name} />
-                  <View style={themed($memberCountBadge)}>
-                    <Text 
-                      preset="formHelper" 
-                      text={`${group.member_count || 0} member${(group.member_count || 0) !== 1 ? 's' : ''}`}
-                      style={themed($memberCountText)}
-                    />
-                  </View>
-                </View>
-                <Text
-                  preset="formHelper"
-                  text={`Created: ${new Date(group.creation_time).toLocaleDateString()}`}
-                />
-              </View>
+              <GroupCard
+                key={group.id}
+                group={group}
+                onPress={handleGroupPress}
+                testID={`created-group-${group.id}`}
+              />
             ))}
           </View>
         )}
@@ -139,22 +140,12 @@ export const GroupsScreen: FC = () => {
           <View style={themed($sectionContainer)}>
             <Text preset="formLabel" text="Groups I Joined" style={themed($sectionHeader)} />
             {joinedGroups.map((group) => (
-              <View key={group.id} style={themed($groupItem)}>
-                <View style={themed($groupHeader)}>
-                  <Text preset="formLabel" text={group.group_name} />
-                  <View style={themed($memberCountBadge)}>
-                    <Text 
-                      preset="formHelper" 
-                      text={`${group.member_count || 0} member${(group.member_count || 0) !== 1 ? 's' : ''}`}
-                      style={themed($memberCountText)}
-                    />
-                  </View>
-                </View>
-                <Text
-                  preset="formHelper"
-                  text={`Created: ${new Date(group.creation_time).toLocaleDateString()}`}
-                />
-              </View>
+              <GroupCard
+                key={group.id}
+                group={group}
+                onPress={handleGroupPress}
+                testID={`joined-group-${group.id}`}
+              />
             ))}
           </View>
         )}
@@ -197,34 +188,6 @@ const $content: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 const $groupsList: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flex: 1,
   padding: spacing.md,
-})
-
-const $groupItem: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.backgroundSecondary,
-  padding: spacing.md,
-  borderRadius: 8,
-  marginBottom: spacing.sm,
-  borderWidth: 1,
-  borderColor: colors.palette.neutral400,
-})
-
-const $groupHeader: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: spacing.xs,
-})
-
-const $memberCountBadge: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.palette.primary100,
-  borderRadius: 12,
-  paddingHorizontal: spacing.xs,
-  paddingVertical: spacing.xxs,
-})
-
-const $memberCountText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.primary600,
-  fontSize: 12,
 })
 
 const $sectionContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({

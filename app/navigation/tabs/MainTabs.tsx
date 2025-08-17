@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 import { Icon } from "@/components"
 import { AddScreen } from "@/screens/main/AddScreen"
-import { GroupsScreen } from "@/screens/main/GroupsScreen"
+import { GroupsStack } from "@/navigation/stacks/GroupsStack"
 import { HomeScreen } from "@/screens/main/HomeScreen"
 import { ListsScreen } from "@/screens/main/ListsScreen"
 import { ProfileScreen } from "@/screens/main/ProfileScreen"
@@ -62,7 +62,7 @@ export function MainTabs() {
       />
       <Tab.Screen
         name="GroupsTab"
-        component={GroupsScreen}
+        component={GroupsStack}
         options={{
           tabBarLabel: "Groups",
           tabBarIcon: ({ color }) => <Icon icon="settings" color={color} />,

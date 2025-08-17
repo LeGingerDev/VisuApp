@@ -13,6 +13,10 @@ export interface HeaderBarProps {
    */
   title?: string
   /**
+   * Left component for the header (e.g., back button)
+   */
+  LeftComponent?: React.ReactNode
+  /**
    * Right icon for the header
    */
   rightIcon?: IconTypes
@@ -34,12 +38,17 @@ export interface HeaderBarProps {
  * A header bar component with title on the left and optional right button
  */
 export function HeaderBar(props: HeaderBarProps) {
-  const { title, rightIcon, onRightPress, RightComponent, style } = props
+  const { title, LeftComponent, rightIcon, onRightPress, RightComponent, style } = props
   const { themed } = useAppTheme()
 
   return (
     <View style={[themed($container), style]}>
       <View style={themed($leftSection)}>
+        {LeftComponent && (
+          <View style={themed($leftComponentContainer)}>
+            {LeftComponent}
+          </View>
+        )}
         <Text preset="heading" text={title} style={themed($title)} />
       </View>
       <View style={themed($middleSection)} />
@@ -67,7 +76,12 @@ const $container: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 
 const $leftSection: ThemedStyle<ViewStyle> = () => ({
   flex: 1,
-  alignItems: "flex-start",
+  flexDirection: "row",
+  alignItems: "center",
+})
+
+const $leftComponentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  marginRight: spacing.sm,
 })
 
 const $middleSection: ThemedStyle<ViewStyle> = () => ({
