@@ -11,6 +11,7 @@ export { ListItem } from "./ListItem"
 export { AutoImage } from "./AutoImage"
 export { EmptyState } from "./EmptyState"
 export { ScreenLayout } from "./ScreenLayout"
+export { UserCard } from "./UserCard"
 
 // Export auth components
 export * from "./auth"
